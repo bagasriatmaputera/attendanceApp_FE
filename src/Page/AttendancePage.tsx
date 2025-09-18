@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 export default function AttendancePage() {
     const [user, setUser] = useState<Employee>();
+    const [employee, setEmployee] = useState<Employee>();
     const [time, setTime] = useState(new Date());
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
@@ -15,10 +16,19 @@ export default function AttendancePage() {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem("token");
+
+                // ambil data user dari Sanctum
                 const res = await axios.get("http://127.0.0.1:8000/api/user", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setUser(res.data);
+
+                // ambil data employee dari endpoint me
+                const empRes = await axios.get("http://127.0.0.1:8000/api/me", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                setUser(res.data); // data dari /api/user
+                setEmployee(empRes.data.data); // ambil data employee saja
             } catch (err) {
                 console.error("Gagal ambil user", err);
             }
@@ -26,6 +36,7 @@ export default function AttendancePage() {
 
         fetchUser();
     }, []);
+
 
     // update jam setiap detik
     useEffect(() => {
@@ -99,6 +110,9 @@ export default function AttendancePage() {
                 <h2 className="text-xl font-semibold mb-4">
                     Hai, {user ? user.name : "Loading..."}
                 </h2>
+                <h3 className="text-xl font-semibold mb-4">
+                    Department: {employee ? employee.department.department_name : "Loading..."}
+                </h3>
                 <p className="text-lg text-gray-600 mb-6">
                     Jam sekarang: {time.toLocaleTimeString("id-ID")}
                 </p>
