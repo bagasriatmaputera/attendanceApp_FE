@@ -1,3 +1,5 @@
+<img width="1919" height="966" alt="image" src="https://github.com/user-attachments/assets/68147598-b793-4e9f-b47c-03455a9cdc4f" />
+
 # 📘 Dokumentasi Frontend AttendanceApp
 
 ## 1. Persiapan Lingkungan
